@@ -39,16 +39,12 @@ var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
 	echo 'Please enter some basic information to deploy.'
-	printf 'Please enter your dns server ip address (ex: 172.11.11.251): '
-	read var_ip
-	printf 'Please enter your network (ex: 172.11.11.0/24): '
-	read var_nw
+	read -p 'Please enter your dns server ip address (ex: 172.11.11.251): ' var_ip
+	read -p 'Please enter your network (ex: 172.11.11.0/24): ' var_nw
 	var_network=`echo $var_nw | awk -F / '{print $1}'`
 	var_subnet=`echo $var_nw | awk -F / '{print $2}'`
-	printf 'Please enter your domain name (ex: kbuor.local): '
-	read var_domain
-	printf 'Please enter your dns server hostname (ex: dns01.kbuor.local): '
-	read var_hostname
+	read -p 'Please enter your domain name (ex: kbuor.local): ' var_domain
+	read -p 'Please enter your dns server hostname (ex: dns01.kbuor.local): ' var_hostname
 	echo
 	echo 'Your informations are: '
 	echo "IP Address: $var_ip"
