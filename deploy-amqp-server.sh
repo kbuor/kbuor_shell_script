@@ -68,7 +68,7 @@ yum install -y open-vm-tools epel-release wget unzip git
 yum update -y
 wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
 sudo rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
-sudo yum install erlang
+sudo yum install -y erlang
 wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.17/rabbitmq-server-3.8.17-1.el8.noarch.rpm
 sudo rpm --import https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
 sudo yum install -y rabbitmq-server-3.8.17-1.el8.noarch.rpm
