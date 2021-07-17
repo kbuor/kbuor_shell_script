@@ -64,6 +64,7 @@ done
 #
 # Start deloyment
 #
+hostnamectl set-hostname $var_hostname
 yum install -y open-vm-tools epel-release wget git unzip ntp
 yum update -y
 sed '21d' /etc/ntp.conf
@@ -72,6 +73,7 @@ sed '21d' /etc/ntp.conf
 sed '21d' /etc/ntp.conf
 sed -i "18 i restrict $var_network mask $var_subnet nomodify notrap" /etc/ntp.conf
 sed -i "22 i server 1.vn.pool.ntp.org iburst" /etc/ntp.conf
+systemctl start ntpd && systemctl enable --now ntpd
 #
 # Finish deployment
 #
