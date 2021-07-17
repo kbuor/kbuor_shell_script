@@ -92,3 +92,46 @@ echo '======================================'
 echo
 echo 'AMQP Server has been deployed successfully'
 echo
+echo 'Select running enviroment: '
+echo '1. Standalone'
+echo '2. Clustering - Create new cluster'
+echo '3. Clustering - Join existing cluster'
+read -p 'Your choice: ' var_env
+while [ \( $var_env -ne 1 \) -a  \( $var_env -ne 2 \) -a \( $var_env -ne 3 \) ]
+do
+	read -p 'Your choice: ' var_env
+done
+if [ $var_env -eq 1 ]
+then
+	echo 'AMQP Standalone applied'
+	echo
+fi
+if [ $var_env -eq 2 ]
+then
+	echo 'AMQP new cluster created'
+	echo 'Please take note the information below to use for joining other AMQP node to this cluster'
+	echo
+	var_name=`hostname | awk -F . '{print $1}'`
+	printf "1. Custer name: "
+	echo "rabbit@$var_name"
+	printf "2. Custer cookie: "
+	echo `cat /var/lib/rabbitmq/.erlang.cookie`
+	echo
+fi
+if [ $var_env -eq 3 ]
+then
+	echo 'Joining to existing cluster'
+	echo
+	read -p '1. Enter cluster name: ' var_join_name
+	read -p '2. Enter cluster cookie: ' var_join_cookie
+	systemctl stop rabbitmq-server
+	echo $var_join_cookie > /var/lib/rabbitmq/.erlang.cookie
+	systemctl start rabbitmq-server && systemctl enable --now rabbitmq-server
+	rabbitmqctl stop_app
+	rabbitmqctl reset
+	rabbitmqctl join_cluster $var_join_name
+	rabbitmqctl start_app
+	rabbitmqctl set_policy ha-all "" '{"ha-mode":"all","ha-sync-mode":"automatic"}'
+	echo
+	echo 'Cluster joined!'
+fi
