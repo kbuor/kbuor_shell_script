@@ -64,6 +64,7 @@ done
 # Start deloyment
 #
 hostnamectl set-hostname $var_hostname
+systemctl stop firewalld && systemctl disable --now firewalld
 yum install -y open-vm-tools epel-release wget unzip git
 yum update -y
 wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
