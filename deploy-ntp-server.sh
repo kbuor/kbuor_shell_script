@@ -85,3 +85,4 @@ echo
 echo 'NTP Server has been deployed successfully'
 echo
 ntpq -p
+echo
