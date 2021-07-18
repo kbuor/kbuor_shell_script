@@ -1,8 +1,9 @@
 #!/bin/bash
+# Author: Trung Nguyen Kbuor
 clear
-echo '============================================================'
-echo 'Configure Cassandra integrated with vCloud Director by Kbuor'
-echo '============================================================'
+echo '==================================================='
+echo 'Configure Cassandra integrated with vCloud Director'
+echo '==================================================='
 echo
 echo 'Please run this command bellow to ALL vcd-cell and restart vmware-vcd service before run this script.'
 echo
@@ -59,9 +60,9 @@ cd /opt/vmware/vcloud-director/bin
 # Finish deployment
 #
 clear
-echo '============================================================'
-echo 'Configure Cassandra integrated with vCloud Director by Kbuor'
-echo '============================================================'
+echo '==================================================='
+echo 'Configure Cassandra integrated with vCloud Director'
+echo '==================================================='
 echo
 echo 'Cassandra has been configured successfully with vCloud Director'
 echo 'Please restart vcloud director service on ALL vcd-cell'
