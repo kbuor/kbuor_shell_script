@@ -1,8 +1,9 @@
 #!/bin/bash
+# Author: Trung Nguyen Kbuor
 clear
-echo '====================================='
-echo 'NTP Server deployment script by Kbuor'
-echo '====================================='
+echo '============================'
+echo 'NTP Server deployment script'
+echo '============================'
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
 #
@@ -78,9 +79,9 @@ systemctl start ntpd && systemctl enable --now ntpd
 # Finish deployment
 #
 clear
-echo '====================================='
-echo 'NTP Server deployment script by Kbuor'
-echo '====================================='
+echo '============================'
+echo 'NTP Server deployment script'
+echo '============================'
 echo
 echo 'NTP Server has been deployed successfully'
 echo
