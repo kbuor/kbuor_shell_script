@@ -87,7 +87,7 @@ vgcreate vg_nfsshare_vcloud_director $var_disk1
 lvcreate -n vol_nfsshare_vcloud_director -l 100%FREE vg_nfsshare_vcloud_director
 mkfs.ext4 /dev/vg_nfsshare_vcloud_director/vol_nfsshare_vcloud_director
 mkdir -p /nfsshare/vcloud_director
-temp1=`blkid /dev/vg_nfsshare_vcloud_director/vol_nfsshare_vcloud_director | awk -F \ '{print $2}'`
+temp1=`blkid /dev/vg_nfsshare_vcloud_director/vol_nfsshare_vcloud_director | awk -F \  '{print $2}'`
 uuid=`cat $temp1 | awk -F \" '{print $2}'`
 echo "UUID=$uuid /nfsshare/vcloud_director ext4 defaults 0 0" >> /etc/fstab
 mount -a
