@@ -1,8 +1,9 @@
 #!/bin/bash
+# Author: Trung Nguyen Kbuor
 clear
-echo '==========================================='
-echo 'Cassandra Server deployment script by Kbuor'
-echo '==========================================='
+echo '=================================='
+echo 'Cassandra Server deployment script'
+echo '=================================='
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
 #
@@ -115,9 +116,9 @@ chkconfig cassandra on
 # Finish deployment
 #
 clear
-echo '==========================================='
-echo 'Cassandra Server deployment script by Kbuor'
-echo '==========================================='
+echo '=================================='
+echo 'Cassandra Server deployment script'
+echo '=================================='
 echo
 echo 'Cassandra Server has been deployed successfully'
 echo
