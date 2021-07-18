@@ -1,8 +1,9 @@
 #!/bin/bash
+# Author: Trung Nguyen Kbuor
 clear
-echo '====================================='
-echo 'NFS Server deployment script by Kbuor'
-echo '====================================='
+echo '============================'
+echo 'NFS Server deployment script'
+echo '============================'
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
 #
@@ -101,9 +102,9 @@ exportfs -v
 # Finish deployment
 #
 clear
-echo '====================================='
-echo 'NFS Server deployment script by Kbuor'
-echo '====================================='
+echo '============================'
+echo 'NFS Server deployment script'
+echo '============================'
 echo
 echo 'NFS Server has been deployed successfully'
 echo
