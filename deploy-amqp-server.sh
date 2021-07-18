@@ -1,8 +1,9 @@
 #!/bin/bash
+# Author: Trung Nguyen Kbuor
 clear
-echo '======================================'
-echo 'AMQP Server deployment script by Kbuor'
-echo '======================================'
+echo '============================='
+echo 'AMQP Server deployment script'
+echo '============================='
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
 echo '!!!WARNING!!! Please make sure you have created DNS record for all AMQP node.'
@@ -88,9 +89,9 @@ rabbitmqctl set_permissions -p / vcloud ".*" ".*" ".*"
 # Finish deployment
 #
 clear
-echo '======================================'
-echo 'AMQP Server deployment script by Kbuor'
-echo '======================================'
+echo '============================='
+echo 'AMQP Server deployment script'
+echo '============================='
 echo
 echo 'AMQP Server has been deployed successfully'
 echo
