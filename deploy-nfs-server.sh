@@ -5,8 +5,6 @@ echo 'NFS Server deployment script by Kbuor'
 echo '====================================='
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
-echo '!!!WARNING!!! Please make sure you have created DNS record for all NFS node.'
-echo 'If you do not have DNS Server, please add NFS hostname of all node to host file in each node.'
 #
 # Check SELINUX status
 #
