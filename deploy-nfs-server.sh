@@ -96,7 +96,7 @@ chown root:root /nfsshare/vcloud_director
 yum install -y nfs-utils
 systemctl enable --now nfs-server rpcbind
 systemctl start nfs-server rpcbind
-echo "/nfsshare/vcloud_director "$nw"(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
+echo "/nfsshare/vcloud_director "$var_nw"(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
 exportfs -a
 exportfs -v
 #
