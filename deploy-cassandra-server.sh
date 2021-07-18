@@ -121,4 +121,3 @@ echo '==========================================='
 echo
 echo 'Cassandra Server has been deployed successfully'
 echo
-echo
