@@ -1,8 +1,9 @@
 #!/bin/bash
+# Author: Trung Nguyen Kbuor
 clear
-echo '====================================='
-echo 'DNS Server deployment script by Kbuor'
-echo '====================================='
+echo '============================'
+echo 'DNS Server deployment script'
+echo '============================'
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
 #
@@ -142,9 +143,9 @@ restorecon /etc/named.conf
 # Finish deployment
 #
 clear
-echo '====================================='
-echo 'DNS Server deployment script by Kbuor'
-echo '====================================='
+echo '============================'
+echo 'DNS Server deployment script'
+echo '============================'
 echo
 echo 'DNS Server has been deployed successfully'
 echo
