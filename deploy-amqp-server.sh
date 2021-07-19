@@ -8,9 +8,7 @@ echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
 echo '!!!WARNING!!! Please make sure you have created DNS record for all AMQP node.'
 echo 'If you do not have DNS Server, please add AMQP hostname of all node to host file in each node.'
-#
 # Check SELINUX status
-#
 grep -q SELINUX=disabled /etc/sysconfig/selinux
 var_tmp1=$?
 grep -q SELINUX=disabled /etc/selinux/config
@@ -35,9 +33,7 @@ do
 	var_tmp2=$?
 done
 echo 'Your SELINUX has been disabled.'
-#
 # Collecting informations for deployment
-#
 var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
@@ -63,31 +59,32 @@ do
 		var_loop1=0
 	fi
 done
-#
 # Start deloyment
-#
 hostnamectl set-hostname $var_hostname
 systemctl stop firewalld && systemctl disable --now firewalld
 yum install -y open-vm-tools epel-release wget unzip git
 yum update -y
+# Install Erlang
 wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
 sudo rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
 sudo yum install -y erlang
+# Install RabbitMQ
 wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.17/rabbitmq-server-3.8.17-1.el8.noarch.rpm
 sudo rpm --import https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
 sudo yum install -y rabbitmq-server-3.8.17-1.el8.noarch.rpm
 chkconfig rabbitmq-server on
+# Start RabbitMQ server
 systemctl start rabbitmq-server
 systemctl enable --now rabbitmq-server
 rabbitmq-plugins enable rabbitmq_management
+# Edit permission
 chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
 systemctl restart rabbitmq-server
+# Add RabbitMQ user
 rabbitmqctl add_user vcloud p@ssW0rd
 rabbitmqctl set_user_tags vcloud administrator
 rabbitmqctl set_permissions -p / vcloud ".*" ".*" ".*"
-#
 # Finish deployment
-#
 clear
 echo '============================='
 echo 'AMQP Server deployment script'
@@ -95,6 +92,7 @@ echo '============================='
 echo
 echo 'AMQP Server has been deployed successfully'
 echo
+# Configure RabbitMQ running enviroment
 echo 'Select running enviroment: '
 echo '1. Standalone'
 echo '2. Clustering - Create new cluster'
