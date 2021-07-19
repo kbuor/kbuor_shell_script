@@ -5,12 +5,9 @@ echo '========================================='
 echo 'Configure Certificate for vCloud Director'
 echo '========================================='
 echo
-echo
 echo 'This script should be run on ALL vcd-cell'
 echo
-#
-# Select
-#
+# Select type of certificate file
 var_skippass=0
 echo 'What is type of your certificate file?'
 echo
@@ -22,8 +19,10 @@ while [ \( $var_select -ne 1 \) -a \( $var_select -ne 2 \) ]
 do
 	read -p 'Your choice: ' var_select
 done
+# Create certificates.ks file
 if [ $var_select -eq 1 ]
 then
+#	Check existing files
 	var_check=1
 	while [ $var_check -eq 1 ]
 	do
@@ -56,6 +55,7 @@ then
 		echo
 		read -p "Press enter key to continue"
 	done
+#	Create certificates.ks file
 	openssl pkcs12 -export -out /tmp/certificate.pfx -inkey /tmp/private.key -in /tmp/certificate.crt -password pass:password
 	/opt/vmware/vcloud-director/jre/bin/keytool -keystore /tmp/certificates.ks -storepass password -keypass password -storetype JCEKS -importkeystore -srckeystore /tmp/certificate.pfx -srcstorepass password
 	/opt/vmware/vcloud-director/jre/bin/keytool -keystore /tmp/certificates.ks -storetype JCEKS -changealias -alias 1 -destalias http -storepass password
@@ -71,6 +71,7 @@ EOF
 	echo 'Please take note for continue the configuration'
 	read -p 'Press Enter to continue'
 fi
+# Configure certificates.ks to vcloud director
 if [ $var_select -eq 2 ]
 then
 	var_check=1
