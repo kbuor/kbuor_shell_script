@@ -6,9 +6,7 @@ echo 'Cassandra Server deployment script'
 echo '=================================='
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
-#
 # Check SELINUX status
-#
 grep -q SELINUX=disabled /etc/sysconfig/selinux
 var_tmp1=$?
 grep -q SELINUX=disabled /etc/selinux/config
@@ -33,9 +31,7 @@ do
 	var_tmp2=$?
 done
 echo 'Your SELINUX has been disabled.'
-#
 # Collecting informations for deployment
-#
 var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
@@ -69,14 +65,14 @@ do
 		var_loop1=0
 	fi
 done
-#
 # Start deloyment
-#
 hostnamectl set-hostname $var_hostname
 systemctl stop firewalld && systemctl disable --now firewalld
 yum install -y open-vm-tools epel-release wget unzip git
 yum update -y
+# Install Java
 yum install -y java
+# Install Cassandra
 cat << 'EOF' > /etc/yum.repos.d/cassandra.repo
 [cassandra]
 name=Apache Cassandra
@@ -86,6 +82,7 @@ repo_gpgcheck=1
 gpgkey=https://www.apache.org/dist/cassandra/KEYS
 EOF
 yum install -y cassandra cassandra-tools
+# Edit cassandra configure
 sed -i 10s/"cluster_name: 'Test Cluster'"/"cluster_name: 'vCD Performance Metrics Database'"/g /etc/cassandra/default.conf/cassandra.yaml
 sed -i 103s/"authenticator: AllowAllAuthenticator"/"authenticator: PasswordAuthenticator"/g /etc/cassandra/default.conf/cassandra.yaml
 sed -i 112s/"authorizer: AllowAllAuthorizer"/"authorizer: CassandraAuthorizer"/g /etc/cassandra/default.conf/cassandra.yaml
@@ -110,12 +107,10 @@ then
 	sed -i 612s/"listen_address: localhost"/"listen_address: $var_ip4"/g /etc/cassandra/default.conf/cassandra.yaml
 	sed -i 689s/"rpc_address: localhost"/"rpc_address: $var_ip4"/g /etc/cassandra/default.conf/cassandra.yaml
 fi
+# Start cassandra service
 service cassandra start
 chkconfig cassandra on
-#
 # Finish deployment
-#
-clear
 echo '=================================='
 echo 'Cassandra Server deployment script'
 echo '=================================='
