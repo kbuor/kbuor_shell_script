@@ -12,6 +12,7 @@ echo 'systemctl restart vmware-vcd'
 echo
 echo 'This script should be run in ONLY ONE vcd-cell'
 echo
+# Verify cassandra ssl configure
 var_loop0=1
 while [ $var_loop0 -eq 1 ]
 do
@@ -27,9 +28,7 @@ do
 		var_loop0=1
 	fi
 done
-#
-# Collecting informations for deployment
-#
+# Collecting informations for configure cassandra integrated with vcloud director
 var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
@@ -51,15 +50,10 @@ do
 		var_loop1=0
 	fi
 done
-#
-# Start deloyment
-#
+# Start configure cassandra integrated with vcloud director
 cd /opt/vmware/vcloud-director/bin
 ./cell-management-tool cassandra --configure --create-schema --cluster-nodes $var_ip --username cassandra --password 'cassandra' --ttl 30 --port 9042
-#
-# Finish deployment
-#
-clear
+# Finish configure cassandra integrated with vcloud director
 echo '==================================================='
 echo 'Configure Cassandra integrated with vCloud Director'
 echo '==================================================='
