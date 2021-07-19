@@ -6,9 +6,7 @@ echo 'NTP Server deployment script'
 echo '============================'
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
-#
 # Check SELINUX status
-#
 grep -q SELINUX=disabled /etc/sysconfig/selinux
 var_tmp1=$?
 grep -q SELINUX=disabled /etc/selinux/config
@@ -33,9 +31,7 @@ do
 	var_tmp2=$?
 done
 echo 'Your SELINUX has been disabled.'
-#
 # Collecting informations for deployment
-#
 var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
@@ -62,23 +58,20 @@ do
 		var_loop1=0
 	fi
 done
-#
 # Start deloyment
-#
 hostnamectl set-hostname $var_hostname
 yum install -y open-vm-tools epel-release wget git unzip ntp
 yum update -y
+# Edit ntp.conf file
 sed -i '21d' /etc/ntp.conf
 sed -i '21d' /etc/ntp.conf
 sed -i '21d' /etc/ntp.conf
 sed -i '21d' /etc/ntp.conf
 sed -i "18 i restrict $var_network mask $var_subnet nomodify notrap" /etc/ntp.conf
 sed -i "22 i server 1.vn.pool.ntp.org iburst" /etc/ntp.conf
+# Start ntp service
 systemctl start ntpd && systemctl enable --now ntpd
-#
 # Finish deployment
-#
-clear
 echo '============================'
 echo 'NTP Server deployment script'
 echo '============================'
