@@ -6,9 +6,7 @@ echo 'DNS Server deployment script'
 echo '============================'
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
-#
 # Check SELINUX status
-#
 grep -q SELINUX=disabled /etc/sysconfig/selinux
 var_tmp1=$?
 grep -q SELINUX=disabled /etc/selinux/config
@@ -33,9 +31,7 @@ do
 	var_tmp2=$?
 done
 echo 'Your SELINUX has been disabled.'
-#
 # Collecting informations for deployment
-#
 var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
@@ -65,38 +61,28 @@ do
 		var_loop1=0
 	fi
 done
-#
 # Start deloyment
-#
 yum install -y open-vm-tools epel-release wget unzip bind bind-utils
 yum update -y
 systemctl stop firewalld && systemctl disable --now firewalld
 hostnamectl set-hostname $var_hostname
-#
 # Edit DNS Server config
-#
 sed -i s/"listen-on port 53 { 127.0.0.1; };"/"listen-on port 53 { 127.0.0.1; $var_ip; };"/ /etc/named.conf
 sed -i s/"allow-query     { localhost; };"/"allow-query     { localhost; $var_network\/$var_subnet; };"/ /etc/named.conf
-#
 # Add forward zone
-#
 sed -i "59 i zone \"$var_domain\" IN {" /etc/named.conf
 sed -i "60 i type master;" /etc/named.conf
 sed -i "61 i file \"forward.$var_domain\";" /etc/named.conf
 sed -i "62 i allow-update { none; };" /etc/named.conf
 sed -i "63 i };" /etc/named.conf
-#
 # Add reverse zone
-#
 var_ptr=`echo $var_network | awk -F . '{print $3"."$2"."$1}'`
 sed -i "64 i zone \"$var_ptr.in-addr.arpa\" IN {" /etc/named.conf
 sed -i "65 i type master;" /etc/named.conf
 sed -i "66 i file \"reverse.$var_domain\";" /etc/named.conf
 sed -i "67 i allow-update { none; };" /etc/named.conf
 sed -i "68 i };" /etc/named.conf
-#
 # Create forward file
-#
 var_record=`echo $var_hostname | awk -F . '{print $1}'`
 touch /var/named/forward.$var_domain
 cat << EOF > /var/named/forward.$var_domain
@@ -112,9 +98,7 @@ cat << EOF > /var/named/forward.$var_domain
 @ IN A $var_ip
 $var_record IN A $var_ip
 EOF
-#
 # Create reverse file
-#
 var_ptr_record=`echo $var_ip | awk -F . '{print $4}'`
 touch /var/named/reverse.$var_domain
 cat << EOF > /var/named/reverse.$var_domain
@@ -130,19 +114,14 @@ cat << EOF > /var/named/reverse.$var_domain
 $var_record IN A $var_ip
 $var_ptr_record IN PTR $var_hostname.
 EOF
-#
 # Start DNS Service
-#
 systemctl start named
 systemctl enable --now named
 chgrp named -R /var/named
 chown -v root:named /etc/named.conf
 restorecon -rv /var/named
 restorecon /etc/named.conf
-#
 # Finish deployment
-#
-clear
 echo '============================'
 echo 'DNS Server deployment script'
 echo '============================'
