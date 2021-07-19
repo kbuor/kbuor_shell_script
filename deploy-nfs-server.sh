@@ -100,7 +100,6 @@ echo "/nfsshare/vcloud_director "$var_nw"(rw,sync,no_subtree_check,no_root_squas
 exportfs -a
 exportfs -v
 # Finish deployment
-clear
 echo '============================'
 echo 'NFS Server deployment script'
 echo '============================'
