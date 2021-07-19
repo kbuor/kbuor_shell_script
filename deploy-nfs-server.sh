@@ -6,9 +6,7 @@ echo 'NFS Server deployment script'
 echo '============================'
 echo
 echo 'Please make sure you have updated system, disabled SELINUX and tempolory disabled firewall before running this script'
-#
 # Check SELINUX status
-#
 grep -q SELINUX=disabled /etc/sysconfig/selinux
 var_tmp1=$?
 grep -q SELINUX=disabled /etc/selinux/config
@@ -33,9 +31,7 @@ do
 	var_tmp2=$?
 done
 echo 'Your SELINUX has been disabled.'
-#
 # Collecting informations for deployment
-#
 var_loop1=1
 while [ $var_loop1 -eq 1 ]
 do
@@ -63,13 +59,12 @@ do
 		var_loop1=0
 	fi
 done
-#
 # Start deloyment
-#
 hostnamectl set-hostname $var_hostname
 systemctl stop firewalld && systemctl disable --now firewalld
 yum install -y open-vm-tools epel-release wget unzip git
 yum update -y
+# Create partition
 fdisk $var_disk << EOF
 n
 p
@@ -81,26 +76,30 @@ t
 w
 EOF
 var_disk1="$var_disk"1
+# Create physical volume
 pvcreate $var_disk1
+# Create volume group
 vgcreate vg_nfsshare_vcloud_director $var_disk1
+# Create logical volume
 lvcreate -n vol_nfsshare_vcloud_director -l 100%FREE vg_nfsshare_vcloud_director
 mkfs.ext4 /dev/vg_nfsshare_vcloud_director/vol_nfsshare_vcloud_director
+# Create mount point
 mkdir -p /nfsshare/vcloud_director
 temp1=`blkid /dev/vg_nfsshare_vcloud_director/vol_nfsshare_vcloud_director | awk -F \  '{print $2}'`
 uuid=`cat $temp1 | awk -F \" '{print $2}'`
 echo "UUID=$uuid /nfsshare/vcloud_director ext4 defaults 0 0" >> /etc/fstab
 mount -a
+# Edit permission
 chmod 750 /nfsshare/vcloud_director
 chown root:root /nfsshare/vcloud_director
+# Install NFS
 yum install -y nfs-utils
 systemctl enable --now nfs-server rpcbind
 systemctl start nfs-server rpcbind
 echo "/nfsshare/vcloud_director "$var_nw"(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
 exportfs -a
 exportfs -v
-#
 # Finish deployment
-#
 clear
 echo '============================'
 echo 'NFS Server deployment script'
