@@ -6,3 +6,4 @@ https://dr.tpcloud.vn
 https://poc.tpcloud.vn
 https://zabbix.tpcloud.vn
 https://s3-datx.tpcloud.com.vn:9001/
+https://s3-vilaf.tpcloud.vn:9001
