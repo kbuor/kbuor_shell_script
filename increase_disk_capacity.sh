@@ -1,12 +1,10 @@
 #!/bin/bash
 
 # Show disk information
-
 lsblk
 
 
 # Select disk and partition to perform
-
 read -p "Choose your disk to increase: (sda,sdb,sdc,...): " disk
 read -p "Choose your partition of disk $disk to increase: (1,2,3,...): " partition
 
@@ -36,7 +34,6 @@ if [ "$last_part" == "${disk}${partition}" ]; then
                 echo "Your vg name: $vg_name"
 
                 # Install "gdisk" and "parted" tools
-
                 yum install -y gdisk parted > /dev/null
                 apt install -y gdisk parted > /dev/null
 
